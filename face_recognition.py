@@ -3,6 +3,7 @@ import cv2 as cv
 import numpy as np
 
 
+
 haar_cascade = cv.CascadeClassifier('haar_face.xml')
 people = ['Henry Cavil', 'Jennifer Lawrence', 'RDJ', 'Tom Holland', 'Zendaya']
 
@@ -13,14 +14,14 @@ people = ['Henry Cavil', 'Jennifer Lawrence', 'RDJ', 'Tom Holland', 'Zendaya']
 face_recognizer = cv.face.LBPHFaceRecognizer_create()
 face_recognizer.read('face_trained.yaml')
 
-img = cv.imread(r'D:\Opencvseries\opencvseries\Faces\Henry Cavil\henry19.jpg')
+img = cv.imread(r'D:\trolls.webp')
 
 gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 cv.imshow('output', gray)
 
 
 
-face_rect = haar_cascade.detectMultiScale(gray, scaleFactor = 1.1, minNeighbors = 3)
+face_rect = haar_cascade.detectMultiScale(gray, scaleFactor = 1.1, minNeighbors = 5)
 for (x,y,w,h) in face_rect:
     faces_roi = gray[y:y+h, x: x+h]
 
@@ -28,6 +29,7 @@ for (x,y,w,h) in face_rect:
     print(f'Label = {people[label]} with confidence of {confidence}')
 
     cv.putText(img, str(people[label]), (20,20) ,cv.FONT_HERSHEY_COMPLEX, 1.0, color=(0,255,0), thickness=2 )
+    print(x+w, y+h)
     cv.rectangle(img, (x,y), (x+w, y+h), (0,255,0), thickness=2  )
 
 cv.imshow('Detected Face', img)
